@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18893,12 +18894,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -19704,8 +19705,10 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  pogoEnd: {fileID: 1587081529}
+  pogoEnd: {fileID: 362427263}
+  boxCollider: {fileID: 0}
   pogoJoint: {fileID: 362427266}
+  animator: {fileID: 1066613279}
 --- !u!4 &628856242
 Transform:
   m_ObjectHideFlags: 0
@@ -20793,9 +20796,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 784865576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c163f1ece14fad44808b25970142ed1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f19c7f94c794c5097d8bd11e39c750d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpinSpeed: 5
+  RotationRange: 15
+  Motion: 0
 --- !u!4 &784865578
 Transform:
   m_ObjectHideFlags: 0
@@ -22138,6 +22144,7 @@ GameObject:
   - component: {fileID: 1066613275}
   - component: {fileID: 1066613278}
   - component: {fileID: 1066613277}
+  - component: {fileID: 1066613279}
   m_Layer: 6
   m_Name: Sprite king
   m_TagString: Untagged
@@ -22257,6 +22264,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1066613279
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066613274}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec1c60159ccef30409fce2eb40819f5c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1072806151
 GameObject:
   m_ObjectHideFlags: 0

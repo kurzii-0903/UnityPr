@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Player : MonoBehaviour
 {
@@ -15,10 +16,14 @@ public class Player : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] Transform pogoEnd;
+    [SerializeField] BoxCollider2D boxCollider;
     [SerializeField] SliderJoint2D pogoJoint;
+    [SerializeField] Animator animator;
+
     Rigidbody2D rb;
     Vector3 startPos;
 
+    bool isJumped = false;
     float jumpForce;
     float timeInComboRange;
     SavePlayerPos playerPosData;
@@ -46,8 +51,39 @@ public class Player : MonoBehaviour
         PogoJump();
         RotatePlayer();
         Respawn();
+        HandlePlayerAnimation();
     }
 
+
+    private void HandlePlayerAnimation()
+    {
+        
+        if (rb.velocity.y < 10 && rb.velocity.y > 1)
+        {
+            animator.SetBool("OnJump",true);
+            isJumped = true ;
+        }
+        else if (rb.velocity.y < -1)
+        {
+            animator.SetBool("OnFall", true);
+            isJumped = false;
+            Debug.Log("Fall");
+        }
+        else if (rb.velocity.y < 11 && isJumped == true)
+        {
+            Debug.Log("jump and fall");
+            animator.SetBool("OnFall", true);
+            isJumped = false;
+        }
+        else if (IsInComboRange())
+        {
+            isJumped = false;
+            animator.SetBool("OnFall", false);
+            animator.SetBool("OnHold", false);
+            animator.SetBool("OnJump", false) ;
+        }
+        
+    }
 
 
     private void PogoJump() 
@@ -63,10 +99,13 @@ public class Player : MonoBehaviour
             pogoJoint.limits = limits;
             pogoJoint.motor = motor;
 
+            animator.SetBool("OnHold",true);
+
             jumpForce = Mathf.Clamp(jumpForce + Time.deltaTime * 15, 0, 10);
         }
         else if (jumpForce > 0)
         {
+
             JointTranslationLimits2D limits = pogoJoint.limits;
             JointMotor2D motor = pogoJoint.motor;
             limits.max = 1.3f;
@@ -103,6 +142,8 @@ public class Player : MonoBehaviour
     }
 
 
+
+
     private void RotatePlayer()
     {
         Vector3 mousePosition = Input.mousePosition;
@@ -123,6 +164,8 @@ public class Player : MonoBehaviour
         rb.AddTorque(torque);
     }
 
+  
+   
     private bool IsInComboRange()
     {
         return Physics2D.CircleCast(pogoEnd.position, 0.3f, Vector2.zero, 0.3f, groundLayer);
