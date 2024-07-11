@@ -16,4 +16,6 @@ public class DestroyGameObject : MonoBehaviour
         var rotation = Time.deltaTime * speed;
         transform.Rotate(0,0,rotation);    
     }
+
+   
 }

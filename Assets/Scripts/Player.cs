@@ -19,10 +19,12 @@ public class Player : MonoBehaviour
     [SerializeField] BoxCollider2D boxCollider;
     [SerializeField] SliderJoint2D pogoJoint;
     [SerializeField] Animator animator;
+    [SerializeField] GameObject canvas;
 
     Rigidbody2D rb;
     Vector3 startPos;
 
+    public bool isDead {get;set;}
     bool isJumped = false;
     float jumpForce;
     float timeInComboRange;
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        isDead = false;
         startPos = transform.position;
         rb = gameObject.GetComponent<Rigidbody2D>();
         rb.WakeUp();
@@ -52,6 +55,7 @@ public class Player : MonoBehaviour
         RotatePlayer();
         Respawn();
         HandlePlayerAnimation();
+        OnDeath();
     }
 
 
@@ -164,7 +168,13 @@ public class Player : MonoBehaviour
         rb.AddTorque(torque);
     }
 
-  
+    private void OnDeath()
+    {
+        if (isDead)
+        {
+            canvas.SetActive(true);
+        }
+    }
    
     private bool IsInComboRange()
     {
@@ -200,5 +210,16 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines(); 
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.tag == "Rooks")
+        {
+            
+            isDead = true;
+            Time.timeScale = 0;
+        }
     }
 }
